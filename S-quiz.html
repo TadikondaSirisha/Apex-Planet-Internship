@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .question { margin-bottom: 20px; }
+    .question h3 { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">Submit</button>
+  <h2 id="result"></h2>
+
+  <script>
+    const quizData = [
+      { q: "HTML stands for?", a: "Hyper Text Markup Language", options: ["Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Text Markup Language", "Hyper Text Manipulation Language"] },
+      { q: "Which language is used for styling web pages?", a: "CSS", options: ["HTML", "CSS", "JavaScript", "Python"] }
+    ];
+
+    const quizDiv = document.getElementById('quiz');
+
+    quizData.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'question';
+      div.innerHTML = `<h3>${item.q}</h3>` +
+        item.options.map(opt =>
+          `<label><input type="radio" name="q${i}" value="${opt}"> ${opt}</label><br>`).join('');
+      quizDiv.appendChild(div);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((item, i) => {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && selected.value === item.a) score++;
+      });
+      document.getElementById('result').textContent = `You scored ${score} / ${quizData.length}`;
+    }
+  </script>
+</body>
+</html>
